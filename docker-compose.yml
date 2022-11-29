@@ -1,0 +1,19 @@
+version: "3"
+services:
+  mysql:
+    image: mariadb
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: test_ex
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user
+    volumes:
+      - ./sqldmp.sql:/docker-entrypoint-initdb.d/sqldmp.sql
+  web:
+    build: .
+    ports:
+      - 8000-8010:80
+    depends_on:
+      - mysql
+    scale: 3
